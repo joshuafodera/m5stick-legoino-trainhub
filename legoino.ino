@@ -1,7 +1,11 @@
 /*
 *******************************************************************************
-* Visit for more information: https://docs.m5stack.com/en/unit/fader
-* Visit for more information: https://docs.m5stack.com/en/unit/key
+https://docs.m5stack.com/en/unit/fader
+https://docs.m5stack.com/en/unit/key
+https://docs.m5stack.com/en/unit/pahub
+
+https://github.com/m5stack/M5StickC-Plus
+https://github.com/corneliusmunz/legoino
 */
 
 #include <M5StickCPlus.h>
