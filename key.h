@@ -39,8 +39,7 @@ public:
       M5.Lcd.setCursor(0, 100, 2);
       M5.Lcd.print(("  Pressed "));
       changeLedColor();
-      while (!digitalRead(INPUT_PIN))
-        ; // Hold until the key released.
+      // while (!digitalRead(INPUT_PIN)); // Hold until the key released.
     }
     else
     {
