@@ -1,3 +1,6 @@
+/*
+https://docs.m5stack.com/en/unit/key
+*/
 #include <FastLED.h>
 #include <Wire.h>
 #include <M5StickCPlus.h>
@@ -49,6 +52,11 @@ public:
   }
 
   virtual int getValue()
+  {
+    return this->value;
+  }
+
+  virtual int getRaw()
   {
     return this->value;
   }

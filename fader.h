@@ -1,3 +1,7 @@
+/*
+https://docs.m5stack.com/en/unit/fader
+*/
+
 #include <FastLED.h>
 #include <Wire.h>
 #include <M5StickCPlus.h>
@@ -13,14 +17,16 @@
 #define MAX_BRIGHTNESS 25
 #define INPUT_PIN 33  // Port B input pin
 #define OUTPUT_PIN 32 // Port B output pin
+#define INPUT_MAX 4095
+#define INPUT_MIN 0
 
 class Fader : public IUnit
 {
 private:
   int value = 0;
+  int rawADC = 0;
   uint8_t beginHue = 0;
   uint8_t deltaHue = 30;
-  uint8_t brightness = 100;
   CRGB leds[NUM_LEDS];
 
 public:
@@ -34,19 +40,20 @@ public:
 
   virtual void loop()
   {
-    this->value = analogRead(INPUT_PIN);
-    Serial.print("analogRead(KEY_PIN)");
-    Serial.println(this->value);
-
+    this->rawADC = analogRead(INPUT_PIN);
     // Mapping ADC value to the brightness range
-    brightness = map(value, 0, 4095, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-    FastLED.setBrightness(brightness); // Adjust the brightness of the FADER LED
+    this->value = getCenterBrightness();
+
+    // Serial.print("analogRead(KEY_PIN)");
+    // Serial.println(this->rawADC);
+
+    FastLED.setBrightness(this->value); // Adjust the brightness of the FADER LED
     FastLED.show();
-    Serial.printf("%d\r\n", value);
-    M5.Lcd.setCursor(0, 100, 2);
-    M5.Lcd.print(("value: " + String(value) + "    "));
-    M5.Lcd.setCursor(0, 120, 2);
-    M5.Lcd.print(("brightness: " + String(brightness) + "    "));
+  }
+
+  virtual int getRaw()
+  {
+    return this->rawADC;
   }
 
   virtual int getValue()
@@ -57,6 +64,27 @@ public:
   virtual String getTitle()
   {
     return ("  FADER UNIT TEST\n   Example\n\n  Fader State:");
+  }
+
+  int getCenterBrightness()
+  {
+    int brightness = 0;
+    int mid = INPUT_MAX / 2;
+    float bufferPercent = 0.12;
+    int buffer = static_cast<int>(INPUT_MAX * bufferPercent);
+    int val = this->rawADC > mid ? this->rawADC - mid : mid - this->rawADC;
+
+    if (val > buffer)
+    {
+      brightness = map(val, INPUT_MIN, mid, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
+    }
+
+    return brightness;
+  }
+
+  int getTotalBrightness()
+  {
+    return map(this->rawADC, INPUT_MIN, INPUT_MAX, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
   }
 };
 
