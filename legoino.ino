@@ -1,5 +1,4 @@
 /*
-*******************************************************************************
 https://docs.m5stack.com/en/unit/fader
 https://docs.m5stack.com/en/unit/key
 https://docs.m5stack.com/en/unit/pahub
