@@ -1,0 +1,8 @@
+{
+    "configuration": "PartitionScheme=default,CPUFreq=240,UploadSpeed=1500000,DebugLevel=error,EraseFlash=none",
+    "board": "m5stack:esp32:m5stick-c-plus",
+    "port": "COM5",
+    "programmer": "esptool",
+    "sketch": "legoino.ino",
+    "output": "../ArduinoOutput"
+}
